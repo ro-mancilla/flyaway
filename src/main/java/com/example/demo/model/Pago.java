@@ -15,10 +15,6 @@ public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPago;
-     
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente; 
 
     @Column(nullable = false)
     private Integer idUsuario;
