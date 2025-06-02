@@ -1,16 +1,16 @@
 package com.example.demo.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.example.demo.model.Cliente;
+import com.example.demo.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Cliente;
+import java.util.List;
+import java.util.Optional;
 
-import com.example.demo.repository.ClienteRepository;
 @Service
-public class clienteService { 
+public class clienteService {
+
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -27,7 +27,7 @@ public class clienteService {
     // Guardar nuevo cliente
     public Cliente saveCliente(Cliente cliente) {
         return clienteRepository.save(cliente);
-    } 
+    }
 
     // Actualizar cliente existente
     public Optional<Cliente> updateCliente(Integer id, Cliente clienteActualizado) {
@@ -46,5 +46,4 @@ public class clienteService {
     public void deleteCliente(Integer id) {
         clienteRepository.deleteById(id);
     }
-   
 }

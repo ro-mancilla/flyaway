@@ -9,7 +9,7 @@ import com.example.demo.model.Alojamiento;
 
 public interface AlojamientoRepository extends JpaRepository<Alojamiento, Integer> {
     
-    // Buscar alojamientos por proveedor 
+    // Buscar alojamientos por proveedor (bien escrito)
     List<Alojamiento> findByProveedor(String proveedor);
 
     // Buscar alojamientos entre fechas
