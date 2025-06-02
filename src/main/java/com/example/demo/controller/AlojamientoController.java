@@ -1,65 +1,63 @@
 package com.example.demo.controller;
 
-import java.sql.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.model.Alojamiento;
 import com.example.demo.service.AlojamientoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/v1/alojamiento")
-public class AlojamientoController { 
-     @Autowired
+@RequestMapping("/api/v1/alojamientos")
+public class AlojamientoController {
+
+    @Autowired
     private AlojamientoService alojamientoService;
 
-    @GetMapping
-    public List<Alojamiento> listarTodos() {
-        return alojamientoService.obtenerTodos();
-    }
-
     @GetMapping("/{id}")
-    public Alojamiento obtenerPorId(@PathVariable int id) {
-        return alojamientoService.obtenerPorId(id);
+    public ResponseEntity<Alojamiento> getAlojamientoById(@PathVariable Integer id) {
+        Optional<Alojamiento> alojamiento = alojamientoService.findByIdAlojamiento(id);
+        return alojamiento.map(ResponseEntity::ok)
+                          .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Alojamiento crear(@RequestBody Alojamiento alojamiento) {
-        return alojamientoService.guardar(alojamiento);
-    }
-
-    @PutMapping("/{id}")
-    public Alojamiento actualizar(@PathVariable int id, @RequestBody Alojamiento alojamiento) {
-        alojamiento.setIdAlojamiento(id);
-        return alojamientoService.guardar(alojamiento);
+    public ResponseEntity<Alojamiento> createAlojamiento(@RequestBody Alojamiento alojamiento) {
+        Alojamiento saved = alojamientoService.saveAlojamiento(alojamiento);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable int id) {
-        alojamientoService.eliminar(id);
+    public ResponseEntity<Void> deleteAlojamiento(@PathVariable Integer id) {
+        alojamientoService.deleteAlojamiento(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/proveedor/{provedor}")
-    public List<Alojamiento> buscarPorProvedor(@PathVariable String provedor) {
-        return alojamientoService.buscarPorProvedor(provedor);
+    @GetMapping
+    public ResponseEntity<Iterable<Alojamiento>> getAllAlojamientos() {
+        return ResponseEntity.ok(alojamientoService.findAll());
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Alojamiento> updateAlojamiento(@PathVariable Integer id, @RequestBody Alojamiento alojamientoActualizado) {
+    Optional<Alojamiento> alojamientoExistente = alojamientoService.findByIdAlojamiento(id);
 
-    @GetMapping("/fechas")
-    public List<Alojamiento> buscarPorFechas(@RequestParam Date inicio, @RequestParam Date fin) {
-        return alojamientoService.buscarPorFechas(inicio, fin);
-    }
+    if (alojamientoExistente.isPresent()) {
+        Alojamiento alojamiento = alojamientoExistente.get();
+        alojamiento.setTipoAlojamiento(alojamientoActualizado.getTipoAlojamiento());
+        alojamiento.setProveedor(alojamientoActualizado.getProveedor());
+        alojamiento.setDireccion(alojamientoActualizado.getDireccion());
+        alojamiento.setCantPersonas(alojamientoActualizado.getCantPersonas());
+        alojamiento.setCliente(alojamientoActualizado.getCliente());
 
-    @GetMapping("/personas/{cantPersonas}")
-    public List<Alojamiento> buscarPorCantidadPersonas(@PathVariable int cantPersonas) {
-        return alojamientoService.buscarPorCantidadPersonas(cantPersonas);
+        Alojamiento actualizado = alojamientoService.saveAlojamiento(alojamiento);
+        return ResponseEntity.ok(actualizado);
+    } else {
+        return ResponseEntity.notFound().build();
     }
+}
+
+
+
 }

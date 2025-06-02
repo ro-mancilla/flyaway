@@ -1,46 +1,32 @@
 package com.example.demo.service;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Optional;
-
+import com.example.demo.model.Alojamiento;
+import com.example.demo.repository.AlojamientoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Alojamiento;
-import com.example.demo.repository.AlojamientoRepository;
+import java.util.Optional;
+
 @Service
-public class AlojamientoService { 
-     @Autowired
+public class AlojamientoService {
+
+    @Autowired
     private AlojamientoRepository alojamientoRepository;
 
-    public List<Alojamiento> obtenerTodos() {
-        return alojamientoRepository.findAll();
+    public Optional<Alojamiento> findByIdAlojamiento(Integer idAlojamiento) {
+        return alojamientoRepository.findByIdAlojamiento(idAlojamiento);
     }
 
-    public Alojamiento obtenerPorId(int id) {
-        Optional<Alojamiento> optional = alojamientoRepository.findById(id);
-        return optional.orElse(null);
-    }
-
-    public Alojamiento guardar(Alojamiento alojamiento) {
+  
+    public Alojamiento saveAlojamiento(Alojamiento alojamiento) {
         return alojamientoRepository.save(alojamiento);
     }
 
-    public void eliminar(int id) {
-        alojamientoRepository.deleteById(id);
+    public void deleteAlojamiento(Integer idAlojamiento) {
+        alojamientoRepository.deleteById(idAlojamiento);
     }
 
-    public List<Alojamiento> buscarPorProvedor(String provedor) {
-        return alojamientoRepository.findByProveedor(provedor);
+    public Iterable<Alojamiento> findAll() {
+        return alojamientoRepository.findAll();
     }
-
-    public List<Alojamiento> buscarPorFechas(Date inicio, Date fin) {
-        return alojamientoRepository.findByFechaInicioBetween(inicio, fin);
-    }
-
-    public List<Alojamiento> buscarPorCantidadPersonas(int cantPersonas) {
-        return alojamientoRepository.findByCantPersonas(cantPersonas);
-    }
-
 }

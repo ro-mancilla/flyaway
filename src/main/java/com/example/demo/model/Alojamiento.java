@@ -1,11 +1,13 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,7 @@ public class Alojamiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAlojamiento;
 
-    @Column(unique = true, length = 13, nullable = false)
+    @Column(nullable = false)
     private String tipoAlojamiento;
 
     @Column(nullable = false)
@@ -28,10 +30,10 @@ public class Alojamiento {
 
     @Column(nullable = false)
     private String direccion;
-
-    private LocalDate fechaInicio;
-
-    private LocalDate fechaFin;
+     
+    @ManyToOne(optional = false)  
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;  
 
     @Column(nullable = false)
     private int cantPersonas;
