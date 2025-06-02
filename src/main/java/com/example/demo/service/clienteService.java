@@ -1,30 +1,50 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Cliente;
+
 import com.example.demo.repository.ClienteRepository;
 @Service
 public class clienteService { 
-    @Autowired 
-    private ClienteRepository clienteRepository; 
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-    public List <Cliente> getClientes(){
-        return clienteRepository.obtenerClientes();
+    // Obtener todos los clientes
+    public List<Cliente> getAllClientes() {
+        return clienteRepository.findAll();
     }
-    public Cliente saveClientes(Cliente cli){
-        return clienteRepository.guardar(cli);
+
+    // Obtener cliente por ID
+    public Optional<Cliente> getClienteById(Integer id) {
+        return clienteRepository.findById(id);
+    }
+
+    // Guardar nuevo cliente
+    public Cliente saveCliente(Cliente cliente) {
+        return clienteRepository.save(cliente);
     } 
 
-    public Cliente getClientesId(int id){
-        return clienteRepository.buscarPorId(id);
-    } 
+    // Actualizar cliente existente
+    public Optional<Cliente> updateCliente(Integer id, Cliente clienteActualizado) {
+        return clienteRepository.findById(id).map(clienteExistente -> {
+            clienteExistente.setRut(clienteActualizado.getRut());
+            clienteExistente.setNombres(clienteActualizado.getNombres());
+            clienteExistente.setApellidos(clienteActualizado.getApellidos());
+            clienteExistente.setFechaNacimiento(clienteActualizado.getFechaNacimiento());
+            clienteExistente.setCorreo(clienteActualizado.getCorreo());
+            clienteExistente.setTelefono(clienteActualizado.getTelefono());
+            return clienteRepository.save(clienteExistente);
+        });
+    }
 
-    public String deleteClientesId(int id){
-        clienteRepository.eliminar(id); 
-        return "cliente eliminado"; 
-    } 
+    // Eliminar cliente por ID
+    public void deleteCliente(Integer id) {
+        clienteRepository.deleteById(id);
+    }
+   
 }

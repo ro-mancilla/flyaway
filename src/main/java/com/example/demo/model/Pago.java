@@ -16,9 +16,10 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPago;
 
-    @Column(nullable = false)
-    private Integer idUsuario;
-    
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
     @Column(nullable = true)
     private LocalDate fechaPago;
 
