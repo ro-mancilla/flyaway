@@ -12,43 +12,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.model.Pago;
-import com.example.demo.service.PagoServicex;
 
+
+import com.example.demo.model.Habitacion;
+import com.example.demo.service.HabitacionService;
 
 @RestController
-@RequestMapping("/api/v1/pago")
-public class PagoController {  
+@RequestMapping("/api/v1/habitacion")
+public class HabitacionController { 
     @Autowired 
-    private PagoServicex pagoService;  
+    private HabitacionService habitacionService; 
 
     @GetMapping
-    public List<Pago> getAllPago() {
-        return pagoService.getAllPago(); 
-    } 
-    
+    public List<Habitacion> getAllHabitaciones() {
+        return habitacionService.getAllHabitaciones();
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Pago> getPagoById(@PathVariable Integer id) {
-        return pagoService.getPagoById(id)
+    public ResponseEntity<Habitacion> getHabitacionById(@PathVariable Integer id) {
+        return habitacionService.getHabitacionById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    } 
-    
-    @PostMapping
-    public Pago createPago(@RequestBody Pago pago) {
-        return pagoService.savePago(pago);
     }
-    
+
+    @PostMapping
+    public Habitacion createHabitacion(@RequestBody Habitacion habitacion) {
+        return habitacionService.saveHabitacion(habitacion);
+    } 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Pago> updateFactura(@PathVariable Integer id, @RequestBody Pago pago) {
-        return pagoService.updatePago(id, pago)
+    public ResponseEntity<Habitacion> updateCliente(@PathVariable Integer id, @RequestBody Habitacion habitacion) {
+        return habitacionService.updateHabitacion(id, habitacion)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     } 
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePago(@PathVariable Integer id) {
-        pagoService.deletePago(id);
+    public ResponseEntity<Void> deleteHabitacion(@PathVariable Integer id) {
+        habitacionService.deleteHabitacion(id);
         return ResponseEntity.noContent().build();
     }
+    
+    
+
 }

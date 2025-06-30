@@ -1,12 +1,15 @@
 package com.example.demo.model;
 
 import java.sql.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +38,14 @@ public class Cliente {
     private String correo;
 
     @Column(nullable=false)
-    private int telefono;
+    private int telefono; 
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Habitacion> habitaciones; 
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Alojamiento> alojamientos;
+    
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Reserva> reservas;
 }

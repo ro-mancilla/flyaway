@@ -14,23 +14,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor 
 @NoArgsConstructor
 @Entity
-public class Pago { 
+public class Piloto { 
     @Id
-    @GeneratedValue(strategy = GenerationType. IDENTITY)
-    private Integer id; 
-
-    @Column(nullable = false)
-    private String estado;
-
-    @Column(nullable = false)
-    private int monto;
-
-    @Column(nullable = false)
-    private String moneda;
-
-    @Column(nullable = false)
-    private String descripcion;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     
+    @Column(nullable=false)
+    private String nombre;
+    
+    @Column(nullable=false)
+    private String rut;
+    
+    @Column(nullable=false)
+    private String licencia;
+    
+    @Column(nullable=false)
+    private int horasVuelo;
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

@@ -10,28 +10,33 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data 
 @AllArgsConstructor 
 @NoArgsConstructor
 @Entity
-public class Pago { 
+public class Habitacion {  
     @Id
     @GeneratedValue(strategy = GenerationType. IDENTITY)
     private Integer id; 
 
-    @Column(nullable = false)
-    private String estado;
+    @Column(nullable=false) 
+    private int numeroHabitacion;  
 
-    @Column(nullable = false)
-    private int monto;
+    @Column(nullable=false)  
+    private String tipoHabitacion; 
 
-    @Column(nullable = false)
-    private String moneda;
-
-    @Column(nullable = false)
-    private String descripcion;
+    @Column(nullable=false)  
+    private int precioPorNoche; 
     
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    
+    
+    
+
+
+
 }

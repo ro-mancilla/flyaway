@@ -31,9 +31,9 @@ public class Alojamiento {
     @Column(nullable = false)
     private String direccion;
      
-    @ManyToOne(optional = false)  
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;  
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
     @Column(nullable = false)
     private int cantPersonas;

@@ -12,43 +12,44 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.model.Pago;
-import com.example.demo.service.PagoServicex;
 
+
+import com.example.demo.model.Reserva;
+import com.example.demo.service.ReservaService;
 
 @RestController
-@RequestMapping("/api/v1/pago")
-public class PagoController {  
-    @Autowired 
-    private PagoServicex pagoService;  
+@RequestMapping("/api/v1/reserva")
+public class ReservaController { 
+    @Autowired  
+    private ReservaService reservaService; 
 
     @GetMapping
-    public List<Pago> getAllPago() {
-        return pagoService.getAllPago(); 
-    } 
-    
+    public List<Reserva> getAllReserva() {
+        return reservaService.getAllReserva();
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Pago> getPagoById(@PathVariable Integer id) {
-        return pagoService.getPagoById(id)
+    public ResponseEntity<Reserva> getReservaById(@PathVariable Integer id) {
+        return reservaService.getReservaById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    } 
-    
-    @PostMapping
-    public Pago createPago(@RequestBody Pago pago) {
-        return pagoService.savePago(pago);
     }
     
+    @PostMapping
+    public Reserva createReserva(@RequestBody Reserva reserva) {
+        return reservaService.saveReserva(reserva);
+    } 
+    
     @PutMapping("/{id}")
-    public ResponseEntity<Pago> updateFactura(@PathVariable Integer id, @RequestBody Pago pago) {
-        return pagoService.updatePago(id, pago)
+    public ResponseEntity<Reserva> updateCliente(@PathVariable Integer id, @RequestBody Reserva reserva) {
+        return reservaService.updateReserva(id, reserva)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     } 
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePago(@PathVariable Integer id) {
-        pagoService.deletePago(id);
+    public ResponseEntity<Void> deleteReserva(@PathVariable Integer id) {
+        reservaService.deleteReserva(id);
         return ResponseEntity.noContent().build();
     }
 }
